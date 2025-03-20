@@ -125,11 +125,19 @@ class question1 {
         }
 
         public int getArea() {
-            return (int) 0.5 * base * height;
+            return  base * height/2;
         }
 
         public int getPerimeter() {
-            return 2 * (height * base);
+
+            Point peak = new Point(point.x + base / 2, point.y + height);
+            Point nonPeak = new Point(point.x + base, point.y);
+
+            double sideA = Math.sqrt((nonPeak.x - point.x) * (nonPeak.x - point.x) + (nonPeak.y - point.y) * (nonPeak.y - point.y));
+            double sideB = Math.sqrt((peak.x - point.x) * (peak.x - point.x) + (peak.y - point.y) * (peak.y - point.y));
+            double sideC = Math.sqrt((nonPeak.x - peak.x) * (nonPeak.x - peak.x) + (nonPeak.y - peak.y) * (nonPeak.y - peak.y));
+
+            return (int)(sideA + sideB + sideC);
         }
 
         public Point getOriginOfShape() {
@@ -142,27 +150,28 @@ class question1 {
                     && check.getY() >= point.getY()
                     && check.getY() <= point.getY() + height;
         }
+
     }
 
     static class Point {
 
-        private double x, y;
+        private int x, y;
 
         public Point(int x, int y) {
             this.x = x;
             this.y = y;
         }
 
-        public double getX() {
+        public int getX() {
             return x;
         }
 
-        public double getY() {
+        public int getY() {
             return y;
         }
 
         public double distanceFromCenter(Point p) {
-            return Math.sqrt(x * p.x + y * p.y);
+            return Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
         }
     }
 
@@ -225,27 +234,35 @@ class question1 {
         List<Integer> squareParimeters = List.of(4);
         Shape square = ShapeFactory.createShape(Shape.ShapeType.SQUARE, squarePoint, squareParimeters);
 
+        Point circlePoint = new Point(55, 55);
+        List<Integer> circleParimeters = List.of(10);
+        Shape circle = ShapeFactory.createShape(Shape.ShapeType.CIRCLE, circlePoint, circleParimeters);
+
+        Point trianglePoint = new Point(80, 80);
+        List<Integer> triangleParimeters = List.of(10, 10);
+        Shape triangle = ShapeFactory.createShape(Shape.ShapeType.TRIANGLE, trianglePoint, triangleParimeters);
+
         newScreen.addShape(square);
         newScreen.addShape(rectangle);
+        newScreen.addShape(circle);
 
-        System.out.println("********************************************");
+        System.out.println("********************Square************************");
         System.out.println("Program checking starts");
 
         System.out.println("The origin of the square is: " + square.getOriginOfShape().x + "," + square.getOriginOfShape().y);
 
         System.out.println("Checking the point pt(35,35) enclosing...........");
         Point pt = new Point(35, 35);
+
         boolean checking = square.isPointEnclosed(pt);
         System.out.println("So is point pt is enclosed ? : " + checking);
 
-        System.out.print("Area of the square of side " + squareParimeters.get(0) + " is: ");
-        System.out.println(square.getArea());
+        System.out.println("Area of the square of side " + squareParimeters.get(0) + " is: " + square.getArea());
+        System.out.println("Perimeter of the square of side " + squareParimeters.get(0) + " is: " + square.getPerimeter());
 
-        System.out.print("Perimeter of the square of side " + squareParimeters.get(0) + " is: ");
-        System.out.println(square.getPerimeter());
+        System.out.println("********************Rectangle********************");
 
         System.out.println("Rectangle analysis: ");
-
         System.out.println("The origin of the Rectangle is: " + rectangle.getOriginOfShape().x + "," + rectangle.getOriginOfShape().y);
 
         System.out.println("Checking the point pt(35,35) enclosing................");
@@ -256,7 +273,35 @@ class question1 {
         System.out.print("Area of the square of length: " + rectangleParimeters.get(0) + " & breadth: " + rectangleParimeters.get(1) + " is: ");
         System.out.println(rectangle.getArea());
 
-        System.out.print("Perimeter of the rectangle is: " + rectangle.getPerimeter());
+        System.out.println("Perimeter of the rectangle is: " + rectangle.getPerimeter());
+
+        System.out.println("****************Circle************************");
+
+        System.out.println("Circle analysis: ");
+        System.out.println("The origin of the Circle is: " + circle.getOriginOfShape().x + "," + circle.getOriginOfShape().y);
+
+        System.out.println("Checking the point pt(60,60) enclosing................");
+        Point origin = new Point(60, 60);
+        boolean circleChecking = circle.isPointEnclosed(origin);
+        System.out.println("So is point pt is enclosed ? : " + circleChecking);
+
+        System.out.println("Area of the Circle of radius: " + circleParimeters.get(0) + " is: " + circle.getArea());
+
+        System.out.println("Perimeter of the Circle is: " + circle.getPerimeter());
+
+        System.out.println("******************Triangle**********************");
+
+        System.out.println("Triangle analysis: ");
+        System.out.println("The origin of the TRIANGLE is: " + triangle.getOriginOfShape().x + "," + triangle.getOriginOfShape().y);
+
+        System.out.println("Checking the point pt(85,85) enclosing................");
+        Point tempPoint = new Point(85, 85);
+        boolean triangleChecking = triangle.isPointEnclosed(tempPoint);
+        System.out.println("So is point pt is enclosed ? : " + triangleChecking);
+
+        System.out.println("Area of the Triangle of radius is: " + triangle.getArea());
+
+        System.out.println("Perimeter of the Triangle is: " + triangle.getPerimeter());
 
     }
 }
