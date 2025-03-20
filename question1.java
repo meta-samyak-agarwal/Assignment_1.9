@@ -203,7 +203,6 @@ class question1 {
             listOfShapes.remove(shape1);
         }
 
-        //*************************************(correction here)**************************** */
         // delete the same type of Shapes
         public void deleteAllShapes(Shape.ShapeType type) {    // <- we will send the enum
             for (Shape sh : listOfShapes) {
